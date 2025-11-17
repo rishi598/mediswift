@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "email_address": "sarah.johnson@gmail.com",
+      "phone_number": "+1 (555) 123-4567",
+      "password": "Sarah@123",
+      "type_of_user": "patient"
+    },
+    {
+      "email_address": "rahul.mehta@gmail.com",
+      "phone_number": "+91 98765 43210",
+      "password": "Rahul@456",
+      "type_of_user": "patient"
+    },
+    {
+      "email_address": "michael.brown@gmail.com",
+      "phone_number": "+1 (555) 765-4321",
+      "password": "DocMike@789",
+      "type_of_user": "doctor"
+    },
+    {
+      "email_address": "ananya.verma@gmail.com",
+      "phone_number": "+91 91234 56789",
+      "password": "Ananya@321",
+      "type_of_user": "doctor"
+    },
+    {
+      "email_address": "emma.davis@gmail.com",
+      "phone_number": "+44 7890 123456",
+      "password": "Emma@2025",
+      "type_of_user": "patient"
+    },
+    {
+      "email_address": "karthik.murugan@gmail.com",
+      "phone_number": "+91 98123 45678",
+      "password": "Karthik@987",
+      "type_of_user": "doctor"
+    },
+    {
+      "email_address": "sneha.rishi@gmail.com",
+      "phone_number": "9840073592",
+      "password": "Sneharishi@0040",
+      "type_of_user": "patient"
+    }
+  ]
+}

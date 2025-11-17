@@ -1,0 +1,180 @@
+[
+  {
+    "doctorName": "Dr. Arjun Mehta",
+    "email": "arjun.mehta@gmail.com",
+    "phoneNumber": "+91 9876543210",
+    "specialization": "Cardiology",
+    "clinicName": "Heart Care Clinic",
+    "clinicAddress": "12 MG Road, Bengaluru, Karnataka",
+    "availableDays": ["Monday", "Tuesday", "Friday"],
+    "selectedTimeSlots": ["11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "03:30 PM"],
+    "recommendationCount": 148,
+    "starCount": 4.6,
+    "description": "Senior Consultant Cardiologist at Heart Care Clinic with over 15 years of experience in treating complex cardiac diseases and performing advanced heart procedures.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" },
+    { "from": "2025-12-01", "to": "2025-12-01" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Priya Nair",
+    "email": "priya.nair@gmail.com",
+    "phoneNumber": "+91 9988776655",
+    "specialization": "Neurology",
+    "clinicName": "NeuroCare Center",
+    "clinicAddress": "221 TTK Road, Chennai, Tamil Nadu",
+    "availableDays": ["Tuesday", "Saturday"],
+    "selectedTimeSlots": ["10:00 AM", "05:30 PM"],
+    "recommendationCount": 175,
+    "starCount": 4.8,
+    "description": "Renowned Neurologist specializing in neurodegenerative disorders, stroke management, and epilepsy with 12 years of clinical expertise at NeuroCare Center.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" },
+    { "from": "2025-12-01", "to": "2025-12-01" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Rakesh Sharma",
+    "email": "rakesh.sharma@gmail.com",
+    "phoneNumber": "+91 9123456780",
+    "specialization": "Orthopedics",
+    "clinicName": "Bone & Joint Hospital",
+    "clinicAddress": "78 Ashok Nagar, Delhi",
+    "availableDays": ["Monday", "Tuesday", "Friday"],
+    "selectedTimeSlots": ["12:00 PM", "12:30 PM", "03:30 PM"],
+    "recommendationCount": 102,
+    "starCount": 4.4,
+    "description": "Orthopedic Surgeon with 14 years of experience specializing in joint replacements and sports injury treatments at Bone & Joint Hospital, Delhi.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Kavitha Raj",
+    "email": "kavitha.raj@gmail.com",
+    "phoneNumber": "+91 9008765432",
+    "specialization": "Dermatology",
+    "clinicName": "Skin Glow Clinic",
+    "clinicAddress": "56 Poes Garden, Chennai, Tamil Nadu",
+    "availableDays": ["Monday", "Thursday", "Saturday"],
+    "selectedTimeSlots": ["10:30 AM", "12:00 PM"],
+    "recommendationCount": 89,
+    "starCount": 4.3,
+    "description": "Consultant Dermatologist specializing in acne, pigmentation, and cosmetic dermatology with a modern approach to skincare at Skin Glow Clinic, Chennai.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Naveen Kumar",
+    "email": "naveen.kumar@gmail.com",
+    "phoneNumber": "+91 9988001122",
+    "specialization": "Pediatrics",
+    "clinicName": "Happy Kids Clinic",
+    "clinicAddress": "34 Green Park, Hyderabad, Telangana",
+    "availableDays": ["Friday", "Sunday"],
+    "selectedTimeSlots": ["10:30 AM"],
+    "recommendationCount": 131,
+    "starCount": 4.7,
+    "description": "Pediatrician with 10+ years of experience in child healthcare and preventive medicine at Happy Kids Clinic, Hyderabad.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Sneha Iyer",
+    "email": "sneha.iyer@gmail.com",
+    "phoneNumber": "+91 9090909090",
+    "specialization": "Ophthalmology",
+    "clinicName": "Vision Plus Eye Care",
+    "clinicAddress": "88 Anna Nagar, Chennai, Tamil Nadu",
+    "availableDays": ["Monday", "Thursday"],
+    "selectedTimeSlots": ["12:30 PM", "02:00 PM", "02:30 PM"],
+    "recommendationCount": 120,
+    "starCount": 4.5,
+    "description": "Ophthalmologist with expertise in cataract surgery, LASIK, and corneal disorders, currently consulting at Vision Plus Eye Care, Chennai.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Vikram Desai",
+    "email": "vikram.desai@gmail.com",
+    "phoneNumber": "+91 9898123456",
+    "specialization": "Gastroenterology",
+    "clinicName": "Digestive Wellness Clinic",
+    "clinicAddress": "5 FC Road, Pune, Maharashtra",
+    "availableDays": ["Tuesday", "Thursday", "Saturday"],
+    "selectedTimeSlots": ["03:30 PM", "04:00 PM"],
+    "recommendationCount": 98,
+    "starCount": 4.2,
+    "description": "Gastroenterologist focused on liver diseases, IBS, and digestive disorders, serving patients at Digestive Wellness Clinic, Pune.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-18", "to": "2025-11-20" }
+  ]
+  },
+  {
+    "doctorName": "Dr. Meenakshi Menon",
+    "email": "meenakshi.menon@gmail.com",
+    "phoneNumber": "+91 9812312312",
+    "specialization": "Pulmonology",
+    "clinicName": "BreatheWell Clinic",
+    "clinicAddress": "27 Sector 15, Gurugram, Haryana",
+    "availableDays": ["Monday", "Wednesday", "Friday"],
+    "selectedTimeSlots": ["10:30 AM", "12:00 PM", "05:30 PM"],
+    "recommendationCount": 142,
+    "starCount": 4.6,
+    "description": "Pulmonologist with over 13 years of experience in managing asthma, COPD, and sleep apnea at BreatheWell Clinic, Gurugram.",
+    "cost": 850,
+    "reviews": [
+  { "user": "Priya S.", "text": "Very caring and patient doctor." },
+  { "user": "Ramesh K.", "text": "Explained everything clearly and calmly." },
+  { "user": "Anjali D.", "text": "Helped me recover quickly, highly recommend!" }
+],
+"offDays": [
+    { "from": "2025-11-15", "to": "2025-11-17" }
+  ]
+  }
+]

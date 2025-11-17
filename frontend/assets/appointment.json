@@ -1,0 +1,66 @@
+[
+  {
+    "doctorName": "Dr. Arjun Mehta",
+    "patientName": "John Doe",
+    "patientEmail": "john.doe@gmail.com",
+    "patientPhone": "+91 9876543210",
+    "patientAddress": "24, MG Road, Bengaluru, Karnataka",
+    "selectedDate": "2025-11-11T00:00:00.000Z",
+    "selectedTime": "10:30 AM",
+    "modeOfPayment": "Cash on Appointment",
+    "status": "pending"
+  },
+  {
+    "doctorName": "Dr. Arjun Mehta",
+    "patientName": "Jane Smith",
+    "patientEmail": "jane.smith@gmail.com",
+    "patientPhone": "+91 9823456789",
+    "patientAddress": "15, Green Park, Chennai, Tamil Nadu",
+    "selectedDate": "2025-11-12T00:00:00.000Z",
+    "selectedTime": "11:00 AM",
+    "modeOfPayment": {
+      "type": "UPI",
+      "upiId": "janesmith@okaxis",
+      "transactionId": "TXN20251112001",
+      "status": "pending"
+    }
+  },
+  {
+    "doctorName": "Dr. Rakesh Sharma",
+    "patientName": "Ravi Kumar",
+    "patientEmail": "ravi.kumar@gmail.com",
+    "patientPhone": "+91 9988776655",
+    "patientAddress": "8, Sector 14, Gurugram, Haryana",
+    "selectedDate": "2025-11-14T00:00:00.000Z",
+    "selectedTime": "03:30 PM",
+    "modeOfPayment": {
+      "type": "Card",
+      "cardNumber": "XXXX-XXXX-XXXX-4321",
+      "cardType": "Visa",
+      "transactionId": "TXN20251114002",
+      "status": "pending"
+    }
+  },
+  {
+    "doctorName": "Dr. Priya Nair",
+    "patientName": "Priya Sharma",
+    "patientEmail": "priya.sharma@gmail.com",
+    "patientPhone": "+91 9090909090",
+    "patientAddress": "56, RK Salai, Chennai, Tamil Nadu",
+    "selectedDate": "2025-11-15T00:00:00.000Z",
+    "selectedTime": "10:00 AM",
+    "modeOfPayment": "Cash on Appointment",
+    "status": "pending"
+  },
+  {
+    "doctorName": "Dr. Priya Nair",
+    "patientName": "Aishwarya Sharma",
+    "patientEmail": "aishu.sharma@gmail.com",
+    "patientPhone": "+91 9090909090",
+    "patientAddress": "56, RK Salai, Chennai, Tamil Nadu",
+    "selectedDate": "2025-11-11T00:00:00.000Z",
+    "selectedTime": "05:30 PM",
+    "modeOfPayment": "Cash on Appointment",
+    "status": "pending"
+  }
+]
