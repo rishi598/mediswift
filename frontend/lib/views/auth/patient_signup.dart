@@ -312,7 +312,7 @@ class _PatientSignupState extends State<PatientSignup> {
                             pageBuilder: (_, animation, __) {
                               return FadeTransition(
                                 opacity: animation,
-                                child: const DoctorLogin(),
+                                child:  DoctorLoginPage(),
                               );
                             },
                           ),

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mediswiftmobile/core/constants/colors.dart';
 import 'package:mediswiftmobile/views/doctor/dashboard/doctor_dashboard.dart';
 import 'package:mediswiftmobile/views/patient/dashboard/patient_dashboard.dart';
 
@@ -13,13 +12,14 @@ class LoginHelper {
     required String expectedUserType, // "patient" or "doctor"
   }) async {
     try {
-      // ✅ Load JSON from assets
-      final String response = await rootBundle.loadString('assets/user.json');
-      final data = jsonDecode(response);
+      // 🔹 Load users
+      final String userResponse = await rootBundle.loadString(
+        'assets/user.json',
+      );
+      final Map<String, dynamic> userData = jsonDecode(userResponse);
+      final List users = userData['users'];
 
-      final List users = data['users'];
-
-      // ✅ Find user by email or phone
+      // 🔹 Find matching user
       final user = users.firstWhere(
         (u) =>
             (u['email_address'] == emailOrPhone ||
@@ -29,47 +29,57 @@ class LoginHelper {
       );
 
       if (user == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Invalid email/phone or password"),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
+        _showError(context, "Invalid email/phone or password");
         return;
       }
 
-      // ✅ Check user type (restrict login)
       if (user['type_of_user'] != expectedUserType) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "Invalid credentials — please login in the correct portal",
-            ),
-            backgroundColor: Colors.redAccent,
-          ),
+        _showError(
+          context,
+          "Invalid credentials — please login in the correct portal",
         );
         return;
       }
 
-      // ✅ Navigate to correct dashboard
+      // 🔹 PATIENT LOGIN
       if (expectedUserType == "patient") {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const PatientDashboard()),
         );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const DoctorDashboard()),
-        );
+        return;
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error loading user data: $e"),
-          backgroundColor: Colors.redAccent,
+
+      // 🔹 DOCTOR LOGIN → load doctor.json
+      final String doctorResponse = await rootBundle.loadString(
+        'assets/doctor.json',
+      );
+      final List doctors = jsonDecode(doctorResponse);
+
+      final loggedInDoctor = doctors.firstWhere(
+        (d) => d['email'] == user['email_address'],
+        orElse: () => null,
+      );
+
+      if (loggedInDoctor == null) {
+        _showError(context, "Doctor profile not found");
+        return;
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DoctorDashboard(doctor: loggedInDoctor),
         ),
       );
+    } catch (e) {
+      _showError(context, "Login error: $e");
     }
+  }
+
+  static void _showError(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: Colors.redAccent),
+    );
   }
 }

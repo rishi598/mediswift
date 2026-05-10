@@ -35,11 +35,6 @@ class _PatientAppointmentPageState extends State<PatientAppointmentPage> {
 
       final loggedInEmail = simulatedLoggedInEmail.toLowerCase();
 
-      if (loggedInEmail == null) {
-        debugPrint("⚠️ No patient email found in appointment.json");
-        return;
-      }
-
       // 🔍 Filter appointments matching that email
       final filteredAppointments =
           data.where((appointment) {

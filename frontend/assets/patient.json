@@ -1,0 +1,19 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john.doe@gmail.com",
+    "phone": "+91 9876543210",
+    "address": "221B Baker Street, Chennai, Tamil Nadu",
+    "mostConsultedDoctors": [
+      "Dr. Priya Nair",
+      "Dr. Arjun Mehta"
+    ]
+  },
+  {
+    "name": "Sneha Rishi",
+    "email": "sneha.rishi@gmail.com",
+    "phone": "+91 9090909090",
+    "address": "56, RK Salai, Chennai, Tamil Nadu",
+    "mostConsultedDoctors": []
+  }
+]

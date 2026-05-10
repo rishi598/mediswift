@@ -4,7 +4,6 @@ import 'package:mediswiftmobile/core/utils/helpers.dart';
 import 'package:mediswiftmobile/views/auth/doctor_login.dart';
 import 'package:mediswiftmobile/views/auth/forgot_password.dart';
 import 'package:mediswiftmobile/views/auth/patient_signup.dart';
-import 'package:mediswiftmobile/views/patient/dashboard/patient_dashboard.dart';
 
 class PatientLogin extends StatefulWidget {
   const PatientLogin({super.key});
@@ -299,7 +298,7 @@ class _PatientLoginState extends State<PatientLogin> {
                             pageBuilder: (_, animation, __) {
                               return FadeTransition(
                                 opacity: animation,
-                                child: const DoctorLogin(),
+                                child: const DoctorLoginPage(),
                               );
                             },
                           ),

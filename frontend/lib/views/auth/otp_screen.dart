@@ -125,7 +125,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     content: Text("OTP resent successfully!"),
                     backgroundColor: AppColors.primaryGreen,
                     behavior: SnackBarBehavior.floating,
-                    duration: const Duration(seconds: 2),
+                    duration: Duration(seconds: 2),
                   ),
                 );
               },
@@ -161,7 +161,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       content: Text("OTP Verified Successfully!"),
                       backgroundColor: AppColors.primaryGreen,
                       behavior: SnackBarBehavior.floating,
-                      duration: const Duration(seconds: 2),
+                      duration: Duration(seconds: 2),
                     ),
                   );
 

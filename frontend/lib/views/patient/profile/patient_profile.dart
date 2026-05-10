@@ -354,7 +354,7 @@ class _PatientProfileState extends State<PatientProfile> {
         ),
       ),
       value: value,
-      activeColor: AppColors.primaryGreen,
+      activeThumbColor: AppColors.primaryGreen,
       onChanged: onChanged,
     );
   }
