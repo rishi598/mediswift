@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mediswiftmobile/core/constants/colors.dart';
 
 class DoctorDashboard extends StatefulWidget {
-  final Map<String, dynamic> doctor;
+  final Map doctor;
 
   const DoctorDashboard({super.key, required this.doctor});
 
@@ -11,245 +10,543 @@ class DoctorDashboard extends StatefulWidget {
 }
 
 class _DoctorDashboardState extends State<DoctorDashboard> {
+  int selectedTab = 0;
+
+  final List<Map<String, dynamic>> appointments = [
+    {
+      "name": "Sarah Johnson",
+      "age": "29 years",
+      "date": "Dec 23, 2024 at 2:00 PM",
+      "problem":
+          "Experiencing chest pain and shortness of breath for the past 2 days. ECG urgent consultation.",
+      "type": "Video Consultation",
+      "status": "Pending",
+      "image": "https://i.pravatar.cc/150?img=32",
+    },
+    {
+      "name": "John Davis",
+      "age": "45 years",
+      "date": "Dec 23, 2024 at 10:00 AM",
+      "problem":
+          "Follow-up consultation for hypertension medication adjustment.",
+      "type": "Chat Consultation",
+      "status": "Pending",
+      "image": "https://i.pravatar.cc/150?img=12",
+    },
+    {
+      "name": "Emily Wilson",
+      "age": "35 years",
+      "date": "Dec 23, 2024 at 4:00 PM",
+      "problem":
+          "Regular check-up and ECG review, family history of heart disease.",
+      "type": "In-Person Visit",
+      "status": "Pending",
+      "image": "https://i.pravatar.cc/150?img=47",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final doctor = widget.doctor;
+    final doctorName = widget.doctor["doctorName"] ?? "Doctor";
+
+    final specialization = widget.doctor["specialization"] ?? "Cardiologist";
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          "Doctor Dashboard",
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 👨‍⚕️ Doctor Profile Card
+            // 👨‍⚕️ Top Header
             Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              color: Colors.white,
               child: Row(
                 children: [
                   const CircleAvatar(
-                    radius: 32,
+                    radius: 24,
                     backgroundImage: AssetImage(
-                      'assets/images/default_doctor.png',
+                      "assets/images/default_doctor.png",
                     ),
                   ),
+
                   const SizedBox(width: 12),
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          doctor['doctorName'] ?? 'Doctor',
+                          "Dr. $doctorName",
                           style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          doctor['specialization'] ?? '',
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 13,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          doctor['clinicName'] ?? '',
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 12,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
                             color: Colors.black87,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+
+                        const SizedBox(height: 2),
+
+                        Text(
+                          specialization,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                            fontFamily: 'Inter',
                           ),
                         ),
                       ],
+                    ),
+                  ),
+
+                  const Icon(
+                    Icons.notifications_none,
+                    size: 22,
+                    color: Colors.black87,
+                  ),
+
+                  const SizedBox(width: 14),
+
+                  const Icon(
+                    Icons.person_outline,
+                    size: 22,
+                    color: Colors.black87,
+                  ),
+                ],
+              ),
+            ),
+
+            // 📊 Stats Cards
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      title: "Pending\nCases",
+                      count: "5",
+                      color: Colors.orange,
+                      icon: Icons.access_time,
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: _buildStatCard(
+                      title: "Completed\nToday",
+                      count: "12",
+                      color: Colors.green,
+                      icon: Icons.check_circle,
                     ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 20),
+            // 🔘 Tabs
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedTab = 0;
+                        });
+                      },
+                      child: Container(
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color:
+                              selectedTab == 0
+                                  ? const Color(0xFF4169E1)
+                                  : Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              size: 10,
+                              color:
+                                  selectedTab == 0
+                                      ? Colors.white
+                                      : Colors.black54,
+                            ),
 
-            // 📊 Stats Row
-            Row(
+                            const SizedBox(width: 6),
+
+                            Text(
+                              "Pending",
+                              style: TextStyle(
+                                color:
+                                    selectedTab == 0
+                                        ? Colors.white
+                                        : Colors.black87,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedTab = 1;
+                        });
+                      },
+                      child: Container(
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color:
+                              selectedTab == 1
+                                  ? const Color(0xFF4169E1)
+                                  : Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              size: 14,
+                              color:
+                                  selectedTab == 1
+                                      ? Colors.white
+                                      : Colors.black54,
+                            ),
+
+                            const SizedBox(width: 6),
+
+                            Text(
+                              "Completed",
+                              style: TextStyle(
+                                color:
+                                    selectedTab == 1
+                                        ? Colors.white
+                                        : Colors.black87,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 14),
+
+            // 📋 Appointment List
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                itemCount: appointments.length,
+                itemBuilder: (context, index) {
+                  final item = appointments[index];
+
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 14),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+
+                    child: Column(
+                      children: [
+                        // 👤 Patient Row
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 22,
+                              backgroundImage: NetworkImage(item["image"]),
+                            ),
+
+                            const SizedBox(width: 10),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          item["name"],
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                      ),
+
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 3,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange.shade100,
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "Pending",
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.orange,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  const SizedBox(height: 2),
+
+                                  Text(
+                                    item["age"],
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+
+                                  const SizedBox(height: 8),
+
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.calendar_today,
+                                        size: 13,
+                                        color: Colors.blueGrey,
+                                      ),
+
+                                      const SizedBox(width: 4),
+
+                                      Expanded(
+                                        child: Text(
+                                          item["date"],
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  const SizedBox(height: 6),
+
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on_outlined,
+                                        size: 13,
+                                        color: Colors.blueGrey,
+                                      ),
+
+                                      const SizedBox(width: 4),
+
+                                      Text(
+                                        item["type"],
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        // 📝 Problem
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            item["problem"],
+                            style: TextStyle(
+                              fontSize: 11,
+                              height: 1.4,
+                              color: Colors.grey.shade700,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // 📄 Report Link
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "📎 Report Attached\nView Blood Pressure Report",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.blue.shade700,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        // ✅ Buttons
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 38,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.check,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    "Accept",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF14B866),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 10),
+
+                            Expanded(
+                              child: SizedBox(
+                                height: 38,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    "Deny",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFE53935),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 📊 Stat Card
+  Widget _buildStatCard({
+    required String title,
+    required String count,
+    required Color color,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _statCard(
-                  title: "Rating",
-                  value: "${doctor['starCount'] ?? 0}",
-                  icon: Icons.star,
-                  color: Colors.amber,
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                    fontFamily: 'Inter',
+                  ),
                 ),
-                const SizedBox(width: 12),
-                _statCard(
-                  title: "Recommended",
-                  value: "${doctor['recommendationCount'] ?? 0}",
-                  icon: Icons.thumb_up,
-                  color: AppColors.primaryGreen,
+
+                const SizedBox(height: 8),
+
+                Text(
+                  count,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ],
             ),
-
-            const SizedBox(height: 20),
-
-            // 📅 Actions
-            const Text(
-              "Quick Actions",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            _actionTile(
-              icon: Icons.event_available,
-              title: "Today's Appointments",
-              subtitle: "View & manage today’s bookings",
-              onTap: () {
-                // TODO: Navigate to Doctor Appointments Page
-              },
-            ),
-
-            _actionTile(
-              icon: Icons.calendar_month,
-              title: "Manage Availability",
-              subtitle: "Set working days & time slots",
-              onTap: () {
-                // TODO: Availability management screen
-              },
-            ),
-
-            _actionTile(
-              icon: Icons.beach_access,
-              title: "Mark Leave",
-              subtitle: "Add off days or leave ranges",
-              onTap: () {
-                // TODO: Leave management screen
-              },
-            ),
-
-            _actionTile(
-              icon: Icons.logout,
-              title: "Logout",
-              subtitle: "Sign out from doctor account",
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 📊 Small Stat Card
-  Widget _statCard({
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.12),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 26),
-            const SizedBox(height: 6),
-            Text(
-              value,
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              title,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 🔹 Action Tile
-  Widget _actionTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        onTap: onTap,
-        tileColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        leading: Icon(icon, color: AppColors.primaryGreen),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
           ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 12,
-            color: Colors.grey,
+
+          Container(
+            height: 36,
+            width: 36,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 20),
           ),
-        ),
-        trailing: const Icon(Icons.chevron_right),
+        ],
       ),
     );
   }

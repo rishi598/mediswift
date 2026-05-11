@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mediswiftmobile/views/doctor/dashboard/doctor_dashboard.dart';
 import 'package:mediswiftmobile/views/auth/doctor_signup.dart';
+import 'package:mediswiftmobile/views/doctor/dashboard/doctor_dashboard.dart';
 
 class DoctorLoginPage extends StatefulWidget {
   const DoctorLoginPage({super.key});
@@ -13,74 +14,84 @@ class DoctorLoginPage extends StatefulWidget {
 
 class _DoctorLoginPageState extends State<DoctorLoginPage> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
   bool obscurePassword = true;
 
   Future<void> _loginDoctor() async {
     final email = _emailController.text.trim().toLowerCase();
+
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please enter all fields"),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Please enter all fields")));
       return;
     }
 
-    // 🔹 Load doctor.json
-    final String response = await rootBundle.loadString(
-      'assets/doctor.json',
-    );
+    try {
+      // 📂 Load user.json
+      final String response = await rootBundle.loadString('assets/user.json');
 
-    final List<dynamic> doctors = json.decode(response);
+      final Map<String, dynamic> data = json.decode(response);
 
-    // 🔹 Find matching doctor
-    final matchedDoctor = doctors.firstWhere(
-      (doc) =>
-          doc['email'] != null &&
-          doc['email'].toString().toLowerCase() == email,
-      orElse: () => null,
-    );
+      final List<dynamic> users = data['users'];
 
-    if (matchedDoctor == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Doctor not found"),
+      // 🔍 Match Doctor Credentials
+      final matchedDoctor = users.firstWhere(
+        (user) =>
+            user['email_address'].toString().toLowerCase() == email &&
+            user['password'] == password &&
+            user['type_of_user'] == 'doctor',
+        orElse: () => null,
+      );
+
+      // ❌ Invalid Login
+      if (matchedDoctor == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Invalid doctor credentials")),
+        );
+        return;
+      }
+
+      // ✅ Navigate to Dashboard
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => DoctorDashboard(doctor: matchedDoctor),
         ),
       );
-      return;
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error loading users: $e")));
     }
-
-    // 🔹 Navigate to Dashboard
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => DoctorDashboard(
-          doctor: matchedDoctor,
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE8E5F7),
+
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+
             padding: const EdgeInsets.symmetric(horizontal: 18),
+
             child: Column(
               children: [
-                // 🩺 Doctor Banner
+                // 👨‍⚕️ Doctor Banner
                 Container(
                   height: 220,
                   width: double.infinity,
+
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
+
                     image: const DecorationImage(
                       image: AssetImage(
                         "assets/images/doctor_illustration.png",
@@ -92,7 +103,7 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
 
                 const SizedBox(height: 18),
 
-                // 👨‍⚕️ Heading
+                // 🩺 Heading
                 const Text(
                   "Welcome Doctor",
                   style: TextStyle(
@@ -120,80 +131,46 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                 // 📦 Login Card
                 Container(
                   width: double.infinity,
+
                   padding: const EdgeInsets.symmetric(
                     horizontal: 18,
                     vertical: 24,
                   ),
+
                   decoration: BoxDecoration(
                     color: Colors.white,
+
                     borderRadius: BorderRadius.circular(18),
+
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.08),
+
                         blurRadius: 16,
+
                         offset: const Offset(0, 6),
                       ),
                     ],
                   ),
+
                   child: Column(
                     children: [
-                      // 📧 Email Field
+                      // 📧 Email
                       TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: "Email address",
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF8F8F8),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF5646E8),
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
+
+                        decoration: _inputDecoration("Email address"),
                       ),
 
                       const SizedBox(height: 16),
 
-                      // 🔒 Password Field
+                      // 🔒 Password
                       TextField(
                         controller: _passwordController,
+
                         obscureText: obscurePassword,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF8F8F8),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
-                          ),
+
+                        decoration: _inputDecoration("Password").copyWith(
                           suffixIcon: IconButton(
                             icon: Icon(
                               obscurePassword
@@ -201,49 +178,36 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                                   : Icons.visibility,
                               color: Colors.grey,
                             ),
+
                             onPressed: () {
                               setState(() {
                                 obscurePassword = !obscurePassword;
                               });
                             },
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF5646E8),
-                              width: 1.5,
-                            ),
-                          ),
                         ),
                       ),
 
                       const SizedBox(height: 22),
 
-                      // 🔘 Sign In Button
+                      // 🚀 Sign In Button
                       SizedBox(
                         width: double.infinity,
                         height: 52,
+
                         child: ElevatedButton(
                           onPressed: _loginDoctor,
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF5646E8),
+
                             elevation: 0,
+
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
+
                           child: const Text(
                             "Sign In",
                             style: TextStyle(
@@ -261,6 +225,7 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                       // ❓ Forgot Password
                       GestureDetector(
                         onTap: () {},
+
                         child: const Text(
                           "Forgot password?",
                           style: TextStyle(
@@ -277,20 +242,91 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
 
                 const SizedBox(height: 28),
 
-                // 🔄 Switch Login
+                // 🔘 OR Divider
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.6,
+                        endIndent: 10,
+                      ),
+                    ),
+
+                    Text(
+                      "OR",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+
+                    Expanded(
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.6,
+                        indent: 10,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 22),
+
+                // 🌐 Google Login
+                SizedBox(
+                  width: double.infinity,
+                  height: 54,
+
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      // TODO: Google Login
+                    },
+
+                    icon: Image.asset('assets/icons/google.png', height: 22),
+
+                    label: const Text(
+                      "Continue with Google",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 15,
+                        color: Color(0xFF1A1A1A),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+
+                      side: const BorderSide(
+                        color: Color(0xFF8E38F5),
+                        width: 1.4,
+                      ),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                // 👨‍⚕️ Patient Login Switch
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
+
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+
                     children: [
-                      Icon(
-                        Icons.person,
-                        size: 16,
-                        color: Color(0xFF5646E8),
-                      ),
+                      Icon(Icons.person, size: 16, color: Color(0xFF5646E8)),
+
                       SizedBox(width: 6),
+
                       Text(
                         "Are you a patient?",
                         style: TextStyle(
@@ -306,9 +342,10 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
 
                 const SizedBox(height: 14),
 
-                // 🆕 Signup
+                // 🆕 Doctor Signup
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+
                   children: [
                     const Text(
                       "New doctor? ",
@@ -318,21 +355,26 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                         fontFamily: 'Inter',
                       ),
                     ),
+
                     GestureDetector(
-  onTap: () {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 500),
-        pageBuilder:
-            (_, animation, __) => FadeTransition(
-              opacity: animation,
-              child: const DoctorSignupPage(),
-            ),
-      ),
-    );
-  },
-  child: const Text(
-    "Sign up",
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration: const Duration(
+                              milliseconds: 500,
+                            ),
+
+                            pageBuilder:
+                                (_, animation, __) => FadeTransition(
+                                  opacity: animation,
+                                  child: const DoctorSignupPage(),
+                                ),
+                          ),
+                        );
+                      },
+
+                      child: const Text(
+                        "Sign up",
                         style: TextStyle(
                           color: Color(0xFF5646E8),
                           fontSize: 15,
@@ -343,10 +385,48 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: 30),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // 🎨 Input Decoration
+  InputDecoration _inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+
+      hintStyle: TextStyle(
+        color: Colors.grey.shade500,
+        fontSize: 14,
+        fontFamily: 'Inter',
+      ),
+
+      filled: true,
+      fillColor: const Color(0xFFF8F8F8),
+
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+
+        borderSide: const BorderSide(color: Color(0xFF5646E8), width: 1.5),
       ),
     );
   }
